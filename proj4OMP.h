@@ -5,6 +5,8 @@
 
 
 char **bufferArray;
+char **retArray;
+void compare_lines(int);
 
-char ** compare_lines(int);
+//char ** compare_lines(int);
 int main(void);
