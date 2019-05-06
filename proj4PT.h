@@ -8,7 +8,6 @@
 void* compare_lines(void*);
 int main(int, char**);
 
-int NUM_THREADS;
 char **bufferArray;
 char **retArray;
 
