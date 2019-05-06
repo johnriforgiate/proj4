@@ -142,6 +142,7 @@ void *compare_lines(void *myID)
 	int yPos; 
 	int maxVal;
 	char* maxString;
+	int threadID = pthread_self();
 
 	stringChart = (int**)malloc(10000 * sizeof(int*));
 	if (stringChart)
@@ -150,15 +151,15 @@ void *compare_lines(void *myID)
 	xMax = 0; /*yMax = 0*/; xPos = 0; yPos = 0; maxVal = 0;
 	maxString = malloc(10000* sizeof(char*));
 	
-	while(bufferArray[myID][xPos] != '\n') 
+	while(bufferArray[threadID][xPos] != '\n') 
 	{ 
-		while(bufferArray[myID][yPos] != '\n') 
+		while(bufferArray[threadID][yPos] != '\n') 
 		{ 
 			if(xPos == 0 || yPos == 0) 
 			{
 				stringChart[xPos][yPos] = 0; 
 			} 
-			else if(bufferArray[myID][xPos] == bufferArray[myID+1][yPos]) 
+			else if(bufferArray[threadID][xPos] == bufferArray[threadID+1][yPos]) 
 			{
 				stringChart[xPos][yPos] = stringChart[xPos-1][yPos-1] + 1;
 				if(maxVal < stringChart[xPos][yPos]) 
@@ -177,9 +178,9 @@ void *compare_lines(void *myID)
 		yPos = 0;
 		xPos += 1; 
 	}
-	strncpy(maxString, &bufferArray[myID][xMax - maxVal], maxVal);
+	strncpy(maxString, &bufferArray[threadID][xMax - maxVal], maxVal);
 	maxString[maxVal] = '\n';
-	free(retArray[myID]);
+	free(retArray[threadID]);
 	retArray[threadID] = maxString;
 	
 	pthread_barrier_wait(&barrier);
