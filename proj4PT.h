@@ -10,5 +10,7 @@ int main(int, char**);
 
 char **bufferArray;
 char **retArray;
+int lineNum;
+int linesRead;
 
 pthread_barrier_t barrier;
