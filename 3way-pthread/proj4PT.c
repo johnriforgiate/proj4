@@ -207,6 +207,12 @@ void *compare_lines(void *myID)
 
 	//pthread_barrier_wait(&barrier);
 	
+	if (stringChart)
+	{
+		for (int i = 0; i < 10000; i++)
+			free(stringChart[i]);
+		free(stringChart);
+	}
 	
 	pthread_exit(NULL);
 }
