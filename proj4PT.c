@@ -130,6 +130,7 @@ int main(int argc, char **argv){
 	elapsedTime += (t2.tv_usec - t1.tv_usec) / 1000.0; // us to ms
 	printf("DATA, NumThreads: %d, %s, %f\n", myVersion, getenv("SLURM_NTASKS"),  elapsedTime);
 	exit(EXIT_SUCCESS);
+    }
 }
 // one page per line
 // take in array of strings 
