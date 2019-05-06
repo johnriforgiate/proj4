@@ -1,7 +1,7 @@
 //proj4PT.c
 int main(int argc, char **argv){
 
-	NUM_THREADS = atoi(argv[1]);
+	int NUM_THREADS = atoi(argv[1]);
 	struct timeval t1, t2;
 	double elapsedTime;
 	int myVersion = NUM_THREADS;
