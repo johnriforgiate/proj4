@@ -15,8 +15,7 @@ int main(int argc, char **argv){
 	if (fp == NULL)
 		exit(EXIT_FAILURE);
 	
-	pthread_t threads[NUM_THREADS];
-	pthread_attr_t attr;
+	
 	
 	bufferArray = (char**)malloc((NUM_THREADS+1) * sizeof(char*));
 	if (bufferArray)
@@ -66,7 +65,8 @@ int main(int argc, char **argv){
 		void *status;
 		
 		//pthread_barrier_init(&barrier, NULL, NUM_THREADS+1);
-		
+		pthread_t threads[NUM_THREADS];
+		pthread_attr_t attr;
 		/* Initialize and set thread detached attribute */
 		pthread_attr_init(&attr);
 		pthread_attr_setdetachstate(&attr, PTHREAD_CREATE_JOINABLE);
