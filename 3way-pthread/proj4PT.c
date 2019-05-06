@@ -63,7 +63,7 @@ int main(int argc, char **argv){
 		
 		void *status;
 		
-		printf("DEBUG: one\n");
+		//printf("DEBUG: one\n");
 		
 		//pthread_barrier_init(&barrier, NULL, NUM_THREADS+1);
 		pthread_t threads[NUM_THREADS];
@@ -82,7 +82,7 @@ int main(int argc, char **argv){
 			
 		
 		
-			printf("DEBUG: two\n");
+			//printf("DEBUG: two\n");
 		//pthread_barrier_destroy(&barrier);
 		
 		/* Free attribute and wait for the other threads */
@@ -149,7 +149,7 @@ void *compare_lines(void *myID)
 {
 	int threadID = (int)(__intptr_t)myID;
 	//printf("%ld", (__intptr_t)myID);
-	printf("%d\n", threadID);
+	//printf("%d\n", threadID);
 	int **stringChart;
 	int xMax; 
 	//int yMax; 
