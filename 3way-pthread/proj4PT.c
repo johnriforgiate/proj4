@@ -59,7 +59,7 @@ int main(int argc, char **argv){
 			lineNum++;
 		}
 		
-		int rc;
+		int rc, ci;
 		
 		void *status;
 		
@@ -72,8 +72,8 @@ int main(int argc, char **argv){
 		pthread_attr_init(&attr);
 		pthread_attr_setdetachstate(&attr, PTHREAD_CREATE_JOINABLE);
 
-		for (int i = 0; i < NUM_THREADS; i++ ) {
-			rc = pthread_create(&threads[i], &attr, compare_lines, (void*)(intptr_t)i);
+		for (ci = 0; ci < NUM_THREADS; ci++ ) {
+			rc = pthread_create(&threads[ci], &attr, compare_lines, (void *)ci);
 			if (rc) {
 				printf("ERROR; return code from pthread_create() is %d\n", rc);
 			exit(-1);
