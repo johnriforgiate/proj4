@@ -193,9 +193,10 @@ void *compare_lines(void *myID)
 	}
 	strncpy(maxString, &bufferArray[threadID][xMax - maxVal], maxVal);
 	maxString[maxVal] = '\n';
+	printf("%s", maxString);
 	free(retArray[threadID]);
 	retArray[threadID] = maxString;
-	
+
 	//pthread_barrier_wait(&barrier);
 	
 	
