@@ -77,6 +77,7 @@ int main(int argc, char **argv){
 			if (rc) {
 				printf("ERROR; return code from pthread_create() is %d\n", rc);
 			exit(-1);
+			}
 		}
 			
 		
