@@ -159,7 +159,7 @@ void *compare_lines(void *myID)
 	char* maxString;
 	
 	
-	printf("%d\n", &&myID);
+	printf("%d\n", myID);
 
 	stringChart = (int**)malloc(10000 * sizeof(int*));
 	if (stringChart)
