@@ -71,8 +71,6 @@ int main(int argc, char **argv){
 		pthread_attr_init(&attr);
 		pthread_attr_setdetachstate(&attr, PTHREAD_CREATE_JOINABLE);
 
-		init_arrays();
-
 		for (int i = 0; i < NUM_THREADS; i++ ) {
 			rc = pthread_create(&threads[i], &attr, compare_lines, (void *)i);
 			if (rc) {
