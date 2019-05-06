@@ -15,7 +15,8 @@ int main(int argc, char **argv){
 	if (fp == NULL)
 		exit(EXIT_FAILURE);
 	
-	
+	pthread_t threads[NUM_THREADS];
+	pthread_attr_t attr;
 	
 	bufferArray = (char**)malloc((NUM_THREADS+1) * sizeof(char*));
 	if (bufferArray)
@@ -60,8 +61,7 @@ int main(int argc, char **argv){
 		
 		int rc;
 		int voidI;
-		pthread_t threads[NUM_THREADS];
-		pthread_attr_t attr;
+		
 		void *status;
 		
 		//pthread_barrier_init(&barrier, NULL, NUM_THREADS+1);
