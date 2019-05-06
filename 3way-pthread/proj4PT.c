@@ -101,7 +101,7 @@ int main(int argc, char **argv){
 			printf("%s", retArray[i]);
 		}
 			
-		pthread_exit(NULL);
+		//pthread_exit(NULL);
 
 		// Copy the last buffer to the first spot in the array.
 		if(read != -1)
@@ -139,6 +139,7 @@ int main(int argc, char **argv){
 	elapsedTime = (t2.tv_sec - t1.tv_sec) * 1000.0; //sec to ms
 	elapsedTime += (t2.tv_usec - t1.tv_usec) / 1000.0; // us to ms
 	printf("DATA, NumThreads: %d, %s, %f\n", myVersion, getenv("SLURM_NTASKS"),  elapsedTime);
+	pthread_exit(NULL);
 	exit(EXIT_SUCCESS);
     }
 
