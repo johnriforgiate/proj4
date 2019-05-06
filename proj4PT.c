@@ -17,7 +17,6 @@ int main(int argc, char **argv){
 	
 	pthread_t threads[NUM_THREADS];
 	pthread_attr_t attr;
-	void *status;
 	
 	bufferArray = (char**)malloc((NUM_THREADS+1) * sizeof(char*));
 	if (bufferArray)
@@ -62,24 +61,33 @@ int main(int argc, char **argv){
 		
 		int rc;
 		int voidI;
-		pthread_t threads[NUM_THREADS];
-		pthread_attr_t attr;
+		
 		void *status;
 		
-		pthread_barrier_init(&barrier, NULL, NUM_THREADS+1);
+		printf("DEBUG: one\n");
 		
+		pthread_barrier_init(&barrier, NULL, NUM_THREADS+1);
+		pthread_t threads[NUM_THREADS];
+		pthread_attr_t attr;
 		/* Initialize and set thread detached attribute */
 		pthread_attr_init(&attr);
 		pthread_attr_setdetachstate(&attr, PTHREAD_CREATE_JOINABLE);
 
 		for (voidI = 0; voidI < NUM_THREADS; voidI++ ) {
-			rc = pthread_create(&threads[voidI], &attr, compare_lines, (void *)voidI);
+			rc = pthread_create(&threads[voidI], &attr, compare_lines, &voidI);
 			if (rc) {
 				printf("ERROR; return code from pthread_create() is %d\n", rc);
 			exit(-1);
 		}
+			
+		for(int i = 0; i < linesRead; i++)
+		{
+			printf("%d-%d: ",(lineNum - linesRead + i),(lineNum - linesRead + i + 1));
+			printf("%s", retArray[i]);
+		}
 		
-		pthread_barrier_destory(&barrier);
+			printf("DEBUG: two\n");
+		pthread_barrier_destroy(&barrier);
 		
 		/* Free attribute and wait for the other threads */
 		pthread_attr_destroy(&attr);
@@ -130,6 +138,7 @@ int main(int argc, char **argv){
 	elapsedTime += (t2.tv_usec - t1.tv_usec) / 1000.0; // us to ms
 	printf("DATA, NumThreads: %d, %s, %f\n", myVersion, getenv("SLURM_NTASKS"),  elapsedTime);
 	exit(EXIT_SUCCESS);
+    }
 }
 // one page per line
 // take in array of strings 
@@ -145,6 +154,8 @@ void *compare_lines(void *myID)
 	int maxVal;
 	char* maxString;
 	int threadID = pthread_self();
+	
+	printf("%d", threadID);
 
 	stringChart = (int**)malloc(10000 * sizeof(int*));
 	if (stringChart)
@@ -182,16 +193,12 @@ void *compare_lines(void *myID)
 	}
 	strncpy(maxString, &bufferArray[threadID][xMax - maxVal], maxVal);
 	maxString[maxVal] = '\n';
+	printf("%s", maxString);
 	free(retArray[threadID]);
 	retArray[threadID] = maxString;
-	
+
 	pthread_barrier_wait(&barrier);
 	
-	for(int i = 0; i < linesRead; i++)
-	{
-		printf("%d-%d: ",(lineNum - linesRead + i),(lineNum - linesRead + i + 1));
-		printf("%s", retArray[i]);
-	}
 	
 	pthread_exit(NULL);
 }
