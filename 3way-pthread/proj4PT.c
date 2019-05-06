@@ -147,6 +147,7 @@ int main(int argc, char **argv){
 
 void *compare_lines(void *myID)
 {
+	int threadID = pthread_self();
 	//printf("%ld", (__intptr_t)myID);
 	printf("%d", threadID);
 	int **stringChart;
@@ -156,7 +157,7 @@ void *compare_lines(void *myID)
 	int yPos; 
 	int maxVal;
 	char* maxString;
-	int threadID = pthread_self();
+	
 	
 	printf("%d", threadID);
 
