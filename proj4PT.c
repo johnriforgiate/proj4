@@ -154,6 +154,8 @@ void *compare_lines(void *myID)
 	int maxVal;
 	char* maxString;
 	int threadID = pthread_self();
+	
+	printf("%d", threadID);
 
 	stringChart = (int**)malloc(10000 * sizeof(int*));
 	if (stringChart)
