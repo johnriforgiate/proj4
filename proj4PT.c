@@ -17,7 +17,6 @@ int main(int argc, char **argv){
 	
 	pthread_t threads[NUM_THREADS];
 	pthread_attr_t attr;
-	void *status;
 	
 	bufferArray = (char**)malloc((NUM_THREADS+1) * sizeof(char*));
 	if (bufferArray)
@@ -66,7 +65,7 @@ int main(int argc, char **argv){
 		pthread_attr_t attr;
 		void *status;
 		
-		pthread_barrier_init(&barrier, NULL, NUM_THREADS+1);
+		//pthread_barrier_init(&barrier, NULL, NUM_THREADS+1);
 		
 		/* Initialize and set thread detached attribute */
 		pthread_attr_init(&attr);
@@ -79,7 +78,7 @@ int main(int argc, char **argv){
 			exit(-1);
 		}
 		
-		pthread_barrier_destroy(&barrier);
+		//pthread_barrier_destroy(&barrier);
 		
 		/* Free attribute and wait for the other threads */
 		pthread_attr_destroy(&attr);
@@ -186,7 +185,7 @@ void *compare_lines(void *myID)
 	free(retArray[threadID]);
 	retArray[threadID] = maxString;
 	
-	pthread_barrier_wait(&barrier);
+	//pthread_barrier_wait(&barrier);
 	
 	for(int i = 0; i < linesRead; i++)
 	{
