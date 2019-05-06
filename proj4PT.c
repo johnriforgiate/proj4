@@ -79,7 +79,7 @@ int main(int argc, char **argv){
 			exit(-1);
 		}
 		
-		pthread_barrier_destory(&barrier);
+		pthread_barrier_destroy(&barrier);
 		
 		/* Free attribute and wait for the other threads */
 		pthread_attr_destroy(&attr);
