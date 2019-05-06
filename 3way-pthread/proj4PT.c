@@ -148,7 +148,7 @@ int main(int argc, char **argv){
 void *compare_lines(void *myID)
 {
 	//printf("%ld", (__intptr_t)myID);
-	
+	printf("%d", threadID);
 	int **stringChart;
 	int xMax; 
 	//int yMax; 
