@@ -61,6 +61,7 @@ int main(int argc, char **argv){
 		}
 		
 		int rc;
+		int voidI;
 		pthread_t threads[NUM_THREADS];
 		pthread_attr_t attr;
 		void *status;
@@ -71,8 +72,8 @@ int main(int argc, char **argv){
 		pthread_attr_init(&attr);
 		pthread_attr_setdetachstate(&attr, PTHREAD_CREATE_JOINABLE);
 
-		for (int i = 0; i < NUM_THREADS; i++ ) {
-			rc = pthread_create(&threads[i], &attr, compare_lines, (void *)i);
+		for (voidI = 0; voidI < NUM_THREADS; voidI++ ) {
+			rc = pthread_create(&threads[voidI], &attr, compare_lines, (void *)voidI);
 			if (rc) {
 				printf("ERROR; return code from pthread_create() is %d\n", rc);
 			exit(-1);
@@ -82,8 +83,8 @@ int main(int argc, char **argv){
 		
 		/* Free attribute and wait for the other threads */
 		pthread_attr_destroy(&attr);
-		for(i=0; i<NUM_THREADS; i++) {
-			rc = pthread_join(threads[i], &status);
+		for(voidI=0; voidI<NUM_THREADS; voidI++) {
+			rc = pthread_join(threads[voidI], &status);
 			if (rc) {
 				printf("ERROR; return code from pthread_join() is %d\n", rc);
 				exit(-1);
