@@ -147,7 +147,7 @@ int main(int argc, char **argv){
 
 void *compare_lines(void *myID)
 {
-	int threadID = pthread_self();
+	int threadID = (int)(__intptr_t)myID;
 	//printf("%ld", (__intptr_t)myID);
 	printf("%d\n", threadID);
 	int **stringChart;
@@ -159,7 +159,7 @@ void *compare_lines(void *myID)
 	char* maxString;
 	
 	
-	printf("%d\n", (int)(__intptr_t)myID);
+	//printf("%d\n", (int)(__intptr_t)myID);
 
 	stringChart = (int**)malloc(10000 * sizeof(int*));
 	if (stringChart)
