@@ -64,6 +64,8 @@ int main(int argc, char **argv){
 		
 		void *status;
 		
+		printf("DEBUG: one\n");
+		
 		//pthread_barrier_init(&barrier, NULL, NUM_THREADS+1);
 		pthread_t threads[NUM_THREADS];
 		pthread_attr_t attr;
@@ -78,6 +80,7 @@ int main(int argc, char **argv){
 			exit(-1);
 		}
 		
+			printf("DEBUG: two\n");
 		//pthread_barrier_destroy(&barrier);
 		
 		/* Free attribute and wait for the other threads */
