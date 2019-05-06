@@ -73,7 +73,7 @@ int main(int argc, char **argv){
 		pthread_attr_setdetachstate(&attr, PTHREAD_CREATE_JOINABLE);
 
 		for (ci = 0; ci < NUM_THREADS; ci++ ) {
-			rc = pthread_create(&threads[ci], &attr, compare_lines, (void *)ci);
+			rc = pthread_create(&threads[ci], &attr, compare_lines, (void *)(__intptr_t)ci);
 			if (rc) {
 				printf("ERROR; return code from pthread_create() is %d\n", rc);
 			exit(-1);
@@ -159,7 +159,7 @@ void *compare_lines(void *myID)
 	char* maxString;
 	
 	
-	printf("%d\n", (int)myID);
+	printf("%d\n", (int)(__intptr_t)myID);
 
 	stringChart = (int**)malloc(10000 * sizeof(int*));
 	if (stringChart)
