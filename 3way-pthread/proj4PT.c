@@ -64,7 +64,7 @@ int main(int argc, char **argv){
 		void *status;
 		
 		//printf("DEBUG: one\n");
-		
+		NUM_THREADS = linesread;
 		//pthread_barrier_init(&barrier, NULL, NUM_THREADS+1);
 		pthread_t threads[NUM_THREADS];
 		pthread_attr_t attr;
