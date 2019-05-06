@@ -43,7 +43,7 @@ int main(int argc, char **argv){
 	
 	read = getline((&bufferArray[0]), &len, fp);
 
-	int lineNum = 0;
+	lineNum = 0;
 	read = 0;
 	
 	printf("DEBUG: starting loop on %s\n", getenv("HOSTNAME"));
@@ -51,7 +51,7 @@ int main(int argc, char **argv){
 	while (read != -1) 
 	{
 		//printf("beforeFor");
-		int linesRead = 0;
+		linesRead = 0;
 		for (int i = 1; (i < (NUM_THREADS + 1)) && read != -1; i++)
 		{
 			len = 0;
@@ -90,6 +90,8 @@ int main(int argc, char **argv){
 				exit(-1);
 			}
 		}
+			
+		pthread_exit(NULL);
 
 		// Copy the last buffer to the first spot in the array.
 		if(read != -1)
