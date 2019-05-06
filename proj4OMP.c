@@ -1,21 +1,31 @@
 #include "proj4OMP.h"
-#define NUM_THREADS 1
+//#define NUM_THREADS 6
 
-int main(void){
+int main(int argc, char **argv){
 
+	int NUM_THREADS = atoi(argv[1]);
+	struct timeval t1, t2;
+	double elapsedTime;
+	int myVersion = NUM_THREADS;
 	FILE *fp;
 	size_t len = 0;
-	ssize_t read;
-	printf("fopen");
-	fp = fopen("/home/j/johnriforgiate/wiki_dump.txt", "r");
+	int read;
+	fp = fopen(argv[2],"r");
+	//fp = fopen("/home/j/johnriforgiate/wiki_dump.txt", "r");
+	//fp = fopen("/home/j/johnriforgiate/test.txt","r");
 	if (fp == NULL)
 		exit(EXIT_FAILURE);
-
-	printf("malloc");
+	
 	bufferArray = (char**)malloc((NUM_THREADS+1) * sizeof(char*));
 	if (bufferArray)
 		for (int i = 0; i < (NUM_THREADS+1); i++)
 			bufferArray[i] = malloc(10000 * sizeof(char));
+	else
+	{
+		fclose(fp);
+		exit(EXIT_FAILURE);
+	}
+	
 	retArray = (char**)malloc((NUM_THREADS) * sizeof(char*));
 	if (retArray)
 		for (int i = 0; i < (NUM_THREADS); i++)
@@ -26,34 +36,38 @@ int main(void){
 		exit(EXIT_FAILURE);
 	}
 	
+	gettimeofday(&t1, NULL);
+	
 	read = getline((&bufferArray[0]), &len, fp);
 
+	int lineNum = 0;
 	read = 0;
+	
+	printf("DEBUG: starting loop on %s\n", getenv("HOSTNAME"));
+
 	while (read != -1) 
 	{
 		//printf("beforeFor");
+		int linesRead = 0;
 		for (int i = 1; (i < (NUM_THREADS + 1)) && read != -1; i++)
 		{
-			//printf("read");
 			len = 0;
 			read = getline((&bufferArray[i]), &len, fp);
-			//if (read == -1)
-			//	break;
-			
-			//printf("%s", buffer_array + i);
+			linesRead ++;
+			lineNum++;
 		}
-		
-		//#pragma omp parallel 
-		//{
-			//printf("call");
-			compare_lines(0);//omp_get_thread_num());
-		//}
-		/*
-		printf("firststring");
-		printf("\n%s\n",bufferArray[0]);
-		printf("secondString");
-		printf("\n%s\n",bufferArray[1]);
-		*/
+		omp_set_num_threads(linesRead);
+
+		#pragma omp parallel 
+		{
+			compare_lines(omp_get_thread_num());
+		}
+		#pragma omp barrier
+		for(int i = 0; i < linesRead; i++)
+		{
+			printf("%d-%d: ",(lineNum - linesRead + i),(lineNum - linesRead + i + 1));
+			printf("%s", retArray[i]);
+		}
 
 		// Copy the last buffer to the first spot in the array.
 		if(read != -1)
@@ -69,10 +83,6 @@ int main(void){
 			//strcpy(bufferArray[0], (bufferArray[NUM_THREADS]));
 
 		}
-		// For debugging:
-		//printf("%s", "CopiedString\n");
-		//printf("%s", bufferArray[0]);
-		//break;
 		
 	}
 	
@@ -84,27 +94,38 @@ int main(void){
 			free(bufferArray[i]);
 		free(bufferArray);
 	}
+	if (retArray)
+	{
+		for (int i = 0; i < NUM_THREADS; i++)
+			free(retArray[i]);
+		free(retArray);
+	}
+	gettimeofday(&t2, NULL);
+	
+	elapsedTime = (t2.tv_sec - t1.tv_sec) * 1000.0; //sec to ms
+	elapsedTime += (t2.tv_usec - t1.tv_usec) / 1000.0; // us to ms
+	printf("DATA, NumThreads: %d, %s, %f\n", myVersion, getenv("SLURM_NTASKS"),  elapsedTime);
 	exit(EXIT_SUCCESS);
 }
 // one page per line
 // take in array of strings 
-//char ** compare_lines(int threadID)
+
 void compare_lines(int threadID)
 {
 	
-	int **stringChart = (int**)malloc(10000 * sizeof(int*));
-	if (stringChart)
-		for (int i = 0; i < 10000; i++)
-			stringChart[i] = malloc(10000 * sizeof(int));
-	int xMax = 0; int yMax = 0; int xPos = 0; int yPos = 0; int maxVal = 0;
-	char* maxString = malloc(10000* sizeof(char*));
-	//char * firstString;
-	//char * secondString;
+	int **stringChart;
+	int xMax; int yMax; int xPos; int yPos; int maxVal;
+	char* maxString;
 
-	//#pragma omp private(ThreadID,theChar,charLoc,firstString,secondString,longestSubstring,i,j)
-	//{
-		//firstString = bufferArray[threadID];
-		//secondString = bufferArray[threadID + 1];
+	#pragma omp private(stringChart,xMax,yMax,xPos,yPos,maxVal,maxString)
+	{
+
+		stringChart = (int**)malloc(10000 * sizeof(int*));
+		if (stringChart)
+			for (int i = 0; i < 10000; i++)
+				stringChart[i] = malloc(10000 * sizeof(int));
+		xMax = 0; yMax = 0; xPos = 0; yPos = 0; maxVal = 0;
+		maxString = malloc(10000* sizeof(char*));
 		
 		while(bufferArray[threadID][xPos] != '\n') 
 		{ 
@@ -134,46 +155,9 @@ void compare_lines(int threadID)
 			yPos = 0;
 			xPos += 1; 
 		}
-	
-			//strcpy(newString, (bufferArray[NUM_THREADS]));
-			//free(bufferArray[0]);
-			//bufferArray[0] = newString;
 		strncpy(maxString, &bufferArray[threadID][xMax - maxVal], maxVal);
 		maxString[maxVal] = '\n';
 		free(retArray[threadID]);
 		retArray[threadID] = maxString;
-		printf("%s", retArray[threadID]);
-		
-
-		//printf("myID = %d startPos = %d endPos = %d \n", myID, startPos, endPos);
-		
-		//Debugging to check correct strings
-		/*
-		printf("%s", "firstString\n");
-		printf("%s", firstString);
-		printf("%s", "secondString\n");
-		printf("%s", secondString);
-		*/
-
-		/*				// init local count array
-		for ( i = 0; i < ALPHABET_SIZE; i++ ) {
-			local_char_count[i] = 0;
-		}
-						// count up our section of the global array
-		for ( i = startPos; i < endPos; i++) {
-			for ( j = 0; j < STRING_SIZE; j++ ) {
-					 theChar = char_array[i][j];
-					 charLoc = ((int) theChar) - 97;
-					 local_char_count[charLoc]++;
-			}
-		}
-
-						// sum up the partial counts into the global arrays
-		//#pragma omp critical
-		//{
-			for ( i = 0; i < ALPHABET_SIZE; i++ ) {
-		 		char_counts[i] += local_char_count[i];
-			}
-		//}
-		*/
+	}
 }
