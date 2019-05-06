@@ -117,12 +117,12 @@ int main(int argc, char **argv){
 			//strcpy(bufferArray[0], (bufferArray[NUM_THREADS]));
 			
 			
-			
+			pthread_exit(NULL);
 
 		}
 		
 	}
-	pthread_exit(NULL);
+	
 	fclose(fp);
 
 	if (bufferArray)
