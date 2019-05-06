@@ -61,6 +61,7 @@ int main(int argc, char **argv){
 		}
 		
 		int rc;
+		int voidI;
 		pthread_t threads[NUM_THREADS];
 		pthread_attr_t attr;
 		void *status;
@@ -71,8 +72,8 @@ int main(int argc, char **argv){
 		pthread_attr_init(&attr);
 		pthread_attr_setdetachstate(&attr, PTHREAD_CREATE_JOINABLE);
 
-		for (int i = 0; i < NUM_THREADS; i++ ) {
-			rc = pthread_create(&threads[i], &attr, compare_lines, (void *)i);
+		for (voidI = 0; voidI < NUM_THREADS; voidI++ ) {
+			rc = pthread_create(&threads[voidI], &attr, compare_lines, (void *)voidI);
 			if (rc) {
 				printf("ERROR; return code from pthread_create() is %d\n", rc);
 			exit(-1);
@@ -82,8 +83,8 @@ int main(int argc, char **argv){
 		
 		/* Free attribute and wait for the other threads */
 		pthread_attr_destroy(&attr);
-		for(i=0; i<NUM_THREADS; i++) {
-			rc = pthread_join(threads[i], &status);
+		for(voidI=0; voidI<NUM_THREADS; voidI++) {
+			rc = pthread_join(threads[voidI], &status);
 			if (rc) {
 				printf("ERROR; return code from pthread_join() is %d\n", rc);
 				exit(-1);
@@ -146,18 +147,18 @@ void *compare_lines(void *myID)
 	if (stringChart)
 		for (int i = 0; i < 10000; i++)
 			stringChart[i] = malloc(10000 * sizeof(int));
-	xMax = 0; yMax = 0; xPos = 0; yPos = 0; maxVal = 0;
+	xMax = 0; /*yMax = 0*/; xPos = 0; yPos = 0; maxVal = 0;
 	maxString = malloc(10000* sizeof(char*));
 	
-	while(bufferArray[threadID][xPos] != '\n') 
+	while(bufferArray[myID][xPos] != '\n') 
 	{ 
-		while(bufferArray[threadID][yPos] != '\n') 
+		while(bufferArray[myID][yPos] != '\n') 
 		{ 
 			if(xPos == 0 || yPos == 0) 
 			{
 				stringChart[xPos][yPos] = 0; 
 			} 
-			else if(bufferArray[threadID][xPos] == bufferArray[threadID+1][yPos]) 
+			else if(bufferArray[myID][xPos] == bufferArray[myID+1][yPos]) 
 			{
 				stringChart[xPos][yPos] = stringChart[xPos-1][yPos-1] + 1;
 				if(maxVal < stringChart[xPos][yPos]) 
@@ -176,9 +177,9 @@ void *compare_lines(void *myID)
 		yPos = 0;
 		xPos += 1; 
 	}
-	strncpy(maxString, &bufferArray[threadID][xMax - maxVal], maxVal);
+	strncpy(maxString, &bufferArray[myID][xMax - maxVal], maxVal);
 	maxString[maxVal] = '\n';
-	free(retArray[threadID]);
+	free(retArray[myID]);
 	retArray[threadID] = maxString;
 	
 	pthread_barrier_wait(&barrier);
@@ -188,4 +189,6 @@ void *compare_lines(void *myID)
 		printf("%d-%d: ",(lineNum - linesRead + i),(lineNum - linesRead + i + 1));
 		printf("%s", retArray[i]);
 	}
+	
+	pthread_exit(NULL);
 }
