@@ -79,6 +79,12 @@ int main(int argc, char **argv){
 				printf("ERROR; return code from pthread_create() is %d\n", rc);
 			exit(-1);
 		}
+			
+		for(int i = 0; i < linesRead; i++)
+		{
+			printf("%d-%d: ",(lineNum - linesRead + i),(lineNum - linesRead + i + 1));
+			printf("%s", retArray[i]);
+		}
 		
 			printf("DEBUG: two\n");
 		//pthread_barrier_destroy(&barrier);
@@ -190,11 +196,6 @@ void *compare_lines(void *myID)
 	
 	//pthread_barrier_wait(&barrier);
 	
-	for(int i = 0; i < linesRead; i++)
-	{
-		printf("%d-%d: ",(lineNum - linesRead + i),(lineNum - linesRead + i + 1));
-		printf("%s", retArray[i]);
-	}
 	
 	pthread_exit(NULL);
 }
