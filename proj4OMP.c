@@ -159,5 +159,11 @@ void compare_lines(int threadID)
 		maxString[maxVal] = '\n';
 		free(retArray[threadID]);
 		retArray[threadID] = maxString;
+		if (stringChart)
+		{
+			for (int i = 0; i < 10000; i++)
+				free(stringChart[i]);
+			free(stringChart);
+		}
 	}
 }
