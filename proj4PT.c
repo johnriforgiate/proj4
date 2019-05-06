@@ -72,7 +72,7 @@ int main(int argc, char **argv){
 		pthread_attr_setdetachstate(&attr, PTHREAD_CREATE_JOINABLE);
 
 		for (voidI = 0; voidI < NUM_THREADS; voidI++ ) {
-			rc = pthread_create(&threads[voidI], &attr, compare_lines, (void *)voidI);
+			rc = pthread_create(&threads[voidI], &attr, compare_lines, (void *)(intptr_t)voidI);
 			if (rc) {
 				printf("ERROR; return code from pthread_create() is %d\n", rc);
 			exit(-1);
