@@ -90,6 +90,8 @@ int main(int argc, char **argv){
 				exit(-1);
 			}
 		}
+			
+		pthread_exit(NULL);
 
 		// Copy the last buffer to the first spot in the array.
 		if(read != -1)
