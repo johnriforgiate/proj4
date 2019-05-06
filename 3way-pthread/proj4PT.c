@@ -115,6 +115,9 @@ int main(int argc, char **argv){
 			bufferArray[0] = newString;
 			//Doesn't work, not sure why.
 			//strcpy(bufferArray[0], (bufferArray[NUM_THREADS]));
+			
+			
+			pthread_exit(NULL);
 
 		}
 		
@@ -141,8 +144,6 @@ int main(int argc, char **argv){
 	printf("DATA, NumThreads: %d, %s, %f\n", myVersion, getenv("SLURM_NTASKS"),  elapsedTime);
 	
 	exit(EXIT_SUCCESS);
-	
-	pthread_exit(NULL);
     }
 
 // one page per line
