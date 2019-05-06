@@ -16,7 +16,7 @@ int main(int argc, char **argv){
 		exit(EXIT_FAILURE);
 	
 	pthread_t threads[NUM_THREADS];
-	pthread_attr_t attr
+	pthread_attr_t attr;
 	void *status;
 	
 	bufferArray = (char**)malloc((NUM_THREADS+1) * sizeof(char*));
