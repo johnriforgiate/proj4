@@ -66,7 +66,7 @@ int main(int argc, char **argv){
 		
 		printf("DEBUG: one\n");
 		
-		//pthread_barrier_init(&barrier, NULL, NUM_THREADS+1);
+		pthread_barrier_init(&barrier, NULL, NUM_THREADS+1);
 		pthread_t threads[NUM_THREADS];
 		pthread_attr_t attr;
 		/* Initialize and set thread detached attribute */
@@ -87,7 +87,7 @@ int main(int argc, char **argv){
 		}
 		
 			printf("DEBUG: two\n");
-		//pthread_barrier_destroy(&barrier);
+		pthread_barrier_destroy(&barrier);
 		
 		/* Free attribute and wait for the other threads */
 		pthread_attr_destroy(&attr);
@@ -197,7 +197,7 @@ void *compare_lines(void *myID)
 	free(retArray[threadID]);
 	retArray[threadID] = maxString;
 
-	//pthread_barrier_wait(&barrier);
+	pthread_barrier_wait(&barrier);
 	
 	
 	pthread_exit(NULL);
