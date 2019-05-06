@@ -147,7 +147,7 @@ int main(int argc, char **argv){
 
 void *compare_lines(void *myID)
 {
-	printf("%ld", (__intptr_t)myID);
+	//printf("%ld", (__intptr_t)myID);
 	
 	int **stringChart;
 	int xMax; 
