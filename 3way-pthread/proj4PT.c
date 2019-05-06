@@ -141,7 +141,7 @@ int main(int argc, char **argv){
 	printf("DATA, NumThreads: %d, %s, %f\n", myVersion, getenv("SLURM_NTASKS"),  elapsedTime);
 	exit(EXIT_SUCCESS);
     }
-}
+
 // one page per line
 // take in array of strings 
 
