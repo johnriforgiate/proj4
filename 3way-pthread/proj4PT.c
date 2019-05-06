@@ -117,12 +117,12 @@ int main(int argc, char **argv){
 			//strcpy(bufferArray[0], (bufferArray[NUM_THREADS]));
 			
 			
-			pthread_exit(NULL);
+			
 
 		}
 		
 	}
-	pthread_exit(NULL);
+	
 	fclose(fp);
 
 	if (bufferArray)
@@ -142,7 +142,7 @@ int main(int argc, char **argv){
 	elapsedTime = (t2.tv_sec - t1.tv_sec) * 1000.0; //sec to ms
 	elapsedTime += (t2.tv_usec - t1.tv_usec) / 1000.0; // us to ms
 	printf("DATA, NumThreads: %d, %s, %f\n", myVersion, getenv("SLURM_NTASKS"),  elapsedTime);
-	
+	pthread_exit(NULL);
 	exit(EXIT_SUCCESS);
     }
 
