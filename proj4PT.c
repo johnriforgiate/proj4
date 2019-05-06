@@ -146,7 +146,7 @@ void *compare_lines(void *myID)
 	if (stringChart)
 		for (int i = 0; i < 10000; i++)
 			stringChart[i] = malloc(10000 * sizeof(int));
-	xMax = 0; yMax = 0; xPos = 0; yPos = 0; maxVal = 0;
+	xMax = 0; /*yMax = 0*/; xPos = 0; yPos = 0; maxVal = 0;
 	maxString = malloc(10000* sizeof(char*));
 	
 	while(bufferArray[threadID][xPos] != '\n') 
