@@ -1,0 +1,18 @@
+file,NumThreads,time in ms,file size in lines
+slurm-3496256.out:DATA, NumThreads: 4,14107205.77,1000000
+slurm-3496258.out:DATA, NumThreads: 16,13926173.75,1000000
+slurm-3496599.out:DATA, NumThreads: 1,13050339.65,500000
+slurm-3496600.out:DATA, NumThreads: 1,5347125.196,250000
+slurm-3496601.out:DATA, NumThreads: 1,2876707.602,125000
+slurm-3496602.out:DATA, NumThreads: 1,1358344.124,62500
+slurm-3496603.out:DATA, NumThreads: 1,725325.872,31250
+slurm-3496604.out:DATA, NumThreads: 2,8560270.488,500000
+slurm-3496605.out:DATA, NumThreads: 2,4267809.952,250000
+slurm-3496606.out:DATA, NumThreads: 2,2151932.214,125000
+slurm-3496607.out:DATA, NumThreads: 2,1123006.984,62500
+slurm-3496608.out:DATA, NumThreads: 2,523309.937,31250
+slurm-3496609.out:DATA, NumThreads: 4,7747863.621,500000
+slurm-3496610.out:DATA, NumThreads: 4,3521589.34,250000
+slurm-3496611.out:DATA, NumThreads: 4,1831841.823,125000
+slurm-3496612.out:DATA, NumThreads: 4,924500.02,62500
+slurm-3496613.out:DATA, NumThreads: 4,462849.001,31250
